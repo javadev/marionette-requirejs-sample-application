@@ -1,69 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <title>Backbone.js Todos</title>
-  <link rel="stylesheet" href="todos.css"/>
-</head>
-
-<body>
-
-  <div id="todoapp">
-
-    <header>
-      <h1>Todos</h1>
-      <input id="new-todo" type="text" placeholder="What needs to be done?">
-    </header>
-
-    <section id="main">
-      <input id="toggle-all" type="checkbox">
-      <label for="toggle-all">Mark all as complete</label>
-      <ul id="todo-list"></ul>
-    </section>
-
-    <footer>
-      <a id="clear-completed">Clear completed</a>
-      <div id="todo-count"></div>
-    </footer>
-
-  </div>
-
-  <div id="instructions">
-    Double-click to edit a todo.
-  </div>
-
-  <div id="credits">
-    Created by
-    <br />
-    <a href="http://jgn.me/">J&eacute;r&ocirc;me Gravel-Niquet</a>.
-    <br />Rewritten by: <a href="http://addyosmani.github.com/todomvc">TodoMVC</a>.
-  </div>
-
-  <script src="lib/json2.js"></script>
-  <script src="lib/jquery-1.7.1.js"></script>
-  <script src="lib/underscore.js"></script>
-  <script src="lib/backbone.js"></script>
-  <script src="lib/backbone-localstorage.js"></script>
-  <script src="todos.js"></script>
-
-  <!-- Templates -->
-
-  <script type="text/template" id="item-template">
-    <div class="view">
-      <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
-      <label><%- title %></label>
-      <a class="destroy"></a>
-    </div>
-    <input class="edit" type="text" value="<%- title %>" />
-  </script>
-
-  <script type="text/template" id="stats-template">
-    <% if (done) { %>
-      <a id="clear-completed">Clear <%= done %> completed <%= done == 1 ? 'item' : 'items' %></a>
-    <% } %>
-    <div class="todo-count"><b><%= remaining %></b> <%= remaining == 1 ? 'item' : 'items' %> left</div>
-  </script>
-
-  </body>
+<!doctype html>
+<html lang="en" data-framework="marionettejs">
+	<head>
+		<meta charset="utf-8">
+		<title>Marionette • TodoMVC</title>
+		<link rel="stylesheet" href="lib/base.css">
+		<link rel="stylesheet" href="todos.css">
+	</head>
+	<body>
+		<section id="todoapp">
+			<header id="header"></header>
+			<section id="main"></section>
+			<footer id="footer"></footer>
+		</section>
+		<footer id="info">
+			<p>Double-click to edit a todo</p>
+			<p>
+				Created by <a href="http://github.com/jsoverson">Jarrod Overson</a>
+				and <a href="http://github.com/derickbailey">Derick Bailey</a>
+				using <a href="http://marionettejs.com">Backbone.Marionette</a>
+			</p>
+			<p>Further variations on the Backbone.Marionette app are also <a href="https://github.com/marionettejs/backbone.marionette/wiki/Projects-and-websites-using-marionette">available</a>.</p>
+		</footer>
+		<script type="text/html" id="template-footer">
+			<span id="todo-count">
+				<strong><%= activeCount %></strong> <%= activeCountLabel() %>
+			</span>
+			<ul id="filters">
+				<li>
+					<a href="#">All</a>
+				</li>
+				<li>
+					<a href="#active">Active</a>
+				</li>
+				<li>
+					<a href="#completed">Completed</a>
+				</li>
+			</ul>
+			<button id="clear-completed" <% if (!completedCount) { %>class="hidden"<% } %>>
+				Clear completed (<%= completedCount %>)
+			</button>
+		</script>
+		<script type="text/html" id="template-header">
+			<h1>todos</h1>
+			<input id="new-todo" placeholder="What needs to be done?" autofocus>
+		</script>
+		<script type="text/html" id="template-todoItemView">
+			<div class="view">
+				<input class="toggle" type="checkbox" <% if (completed) { %>checked<% } %>>
+				<label><%- title %></label>
+				<button class="destroy"></button>
+			</div>
+			<input class="edit" value="<%- title %>">
+		</script>
+		<script type="text/html" id="template-todoListCompositeView">
+			<input id="toggle-all" type="checkbox">
+			<label for="toggle-all">Mark all as complete</label>
+			<ul id="todo-list"></ul>
+		</script>
+		<!-- vendor libraries -->
+		<script src="lib/base.js"></script>
+		<script src="lib/jquery.js"></script>
+		<script src="lib/underscore.js"></script>
+		<script src="lib/backbone.js"></script>
+		<script src="lib/backbone.localStorage.js"></script>
+		<script src="lib/backbone.marionette.js"></script>
+		<!-- application -->
+		<script src="TodoMVC.js"></script>
+		<script src="TodoMVC.Todos.js"></script>
+		<script src="TodoMVC.Layout.js"></script>
+		<script src="TodoMVC.TodoList.Views.js"></script>
+		<script src="TodoMVC.TodoList.js"></script>
+		<script>
+			$(function () {
+				// start the TodoMVC app (defined in js/TodoMVC.js)
+				TodoMVC.start();
+			});
+		</script>
+	</body>
 </html>
