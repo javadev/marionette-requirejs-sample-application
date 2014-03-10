@@ -87,7 +87,7 @@ define([
 		},
 
 		filterAll : function () {
-			app.Todos.each(this.filterOne, this);
+			Todos.each(this.filterOne, this);
 		},
 		
 		// Generate the attributes for a new Todo item.
